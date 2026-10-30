@@ -1,0 +1,31 @@
+[package]
+authors = ["Nicolas Patry <nicolas@huggingface.co>"]
+edition = "2024"
+name    = "node"
+version = "1.0.0-dev.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi        = "3"
+napi-derive = "3"
+# No `serialize`: nothing here writes a config back out.
+tokenizers = { path = "../../tokenizers", default-features = false, features = [
+  "parallelism",
+  "normalizers",
+  "bpe",
+  "unigram",
+  "wordpiece",
+  "wordlevel",
+  "unicode-scripts",
+  "regex",
+] }
+
+[build-dependencies]
+napi-build = "2"
+
+[profile.release]
+lto = true
